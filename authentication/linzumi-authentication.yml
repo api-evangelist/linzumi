@@ -1,0 +1,68 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.npmjs.com/package/@linzumi/cli
+docs: https://www.npmjs.com/package/@linzumi/cli
+notes: >-
+  Derived from the published @linzumi/cli documentation rather than an OpenAPI — Linzumi publishes no
+  spec and no securitySchemes. The auth model below is what the first-party CLI documents for
+  authenticating a local runner against serve.linzumi.com. No public API-key program, no documented
+  OAuth scope surface, so `scopes/` is intentionally not created.
+summary:
+  types:
+  - oauth2-device-code
+  - oauth2-authorization-code
+  token_transport:
+  - websocket
+  - https
+  api_key_in: []
+  oauth2_flows:
+  - deviceCode
+  - authorizationCode
+schemes:
+- name: BrowserLoopbackFlow
+  type: oauth2
+  flow: authorizationCode
+  default: true
+  description: >-
+    Default `linzumi connect` behaviour. Opens a browser on the runner machine and waits for an OAuth
+    callback on localhost. Cannot work on headless machines with no browser or no loopback callback.
+  redirect: http://localhost (loopback callback)
+  sources:
+  - https://www.npmjs.com/package/@linzumi/cli
+- name: DeviceAuthorizationFlow
+  type: oauth2
+  flow: deviceCode
+  standard: RFC 8628 (OAuth 2.0 Device Authorization Grant) — shape matches; not explicitly claimed by vendor
+  description: >-
+    For headless or remote runners (VPS, Windows/SSH). The runner prints an 8-character user code and
+    a verification URL; the developer approves from a browser already signed in to Linzumi on any
+    other machine. The runner long-polls and receives a scoped token — no browser or loopback callback
+    needed on the runner itself.
+  invocation: linzumi connect --workspace <slug> --auth-mode device --api-url wss://serve.linzumi.com
+  verification_url: https://serve.linzumi.com/api/v2/local-codex-runner/device
+  user_code_length: 8
+  code_expiry: 10 minutes
+  grant_delivery: long-poll
+  token_type: scoped runner token
+  notes: >-
+    The verification URL always targets the same server passed via --api-url / --linzumi-url,
+    defaulting to wss://serve.linzumi.com.
+  sources:
+  - https://www.npmjs.com/package/@linzumi/cli
+- name: SignupEmailCode
+  type: email-otp
+  description: >-
+    Initial account creation via `npx -y @linzumi/cli@latest signup` — asks for an email address and
+    sends a sign-in code.
+  sources:
+  - https://www.npmjs.com/package/@linzumi/cli
+authorization_boundaries:
+- name: Trusted folders
+  description: >-
+    Agents may only edit inside folders explicitly trusted by the developer. The trust list lives at
+    ~/.linzumi/config.json; `linzumi paths add <dir>` extends it, and the --cwd selected for
+    `linzumi connect` is trusted for that runner process.
+- name: Scoped MCP context
+  description: >-
+    The bundled local MCP server reuses the approved local-runner auth, bounding agent reads to the
+    runner's authorized message, thread, and channel context.
