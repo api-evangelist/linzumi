@@ -1,0 +1,58 @@
+generated: '2026-07-19'
+method: probed
+source: >-
+  https://www.npmjs.com/package/@linzumi/cli and live HTTP probes of https://serve.linzumi.com
+notes: >-
+  Linzumi publishes no API documentation, so these conventions are what the first-party CLI documents
+  plus what live probing of serve.linzumi.com actually returned. Sparse by design — absent sections
+  below are genuinely undocumented, not omitted. No idempotency contract is documented or observable,
+  so no `Idempotency` pointer is emitted.
+versioning:
+  scheme: uri-path
+  current: v2
+  example: https://serve.linzumi.com/api/v2/local-codex-runner/device
+  docs: null
+  evidence: observed path segment in the CLI-documented device endpoint
+transport:
+  http:
+    base: https://serve.linzumi.com
+    content_type: application/json; charset=utf-8
+  websocket:
+    base: wss://serve.linzumi.com
+    purpose: local Commander runner traffic
+    library: ws (npm dependency of @linzumi/cli)
+    non_production: ws://127.0.0.1:4140 accepted via --linzumi-url
+authentication:
+  style: oauth2 device-code or browser loopback, yielding a scoped runner token
+  see: authentication/linzumi-authentication.yml
+error_envelope:
+  format: custom-json
+  rfc9457: false
+  shape: '{"error": {"code": "<string>", "detail": "<string>"}}'
+  observed_example: '{"error":{"code":"404.json","detail":"request failed"}}'
+  code_convention: >-
+    Observed codes carry a dotted suffix indicating the negotiated response format (e.g. "404.json"),
+    suggesting the status and the format are joined into a single code token.
+  see: errors/linzumi-problem-types.yml
+idempotency:
+  supported: unknown
+  documented: false
+  header: null
+  evidence: No idempotency key header, parameter, or retry contract is documented on any public surface.
+pagination:
+  documented: false
+  style: null
+rate_limiting:
+  documented: false
+  headers: []
+request_tracing:
+  documented: false
+  header: null
+soft_404_warning:
+  host: https://linzumi.com
+  behaviour: >-
+    The marketing host returns HTTP 200 with an identical 404 HTML body for every unknown path,
+    including /.well-known/*, /openapi.json, /agents.md, /privacy, and /terms. Status codes from
+    linzumi.com are therefore NOT a reliable existence signal — body comparison is required. The API
+    host serve.linzumi.com behaves correctly, returning genuine 404 with a JSON error envelope.
+  see: well-known/linzumi-well-known.yml

@@ -1,0 +1,46 @@
+generated: '2026-07-19'
+method: searched
+source: https://registry.npmjs.org/@linzumi%2Fcli
+notes: >-
+  Registry sweep of npm, PyPI, RubyGems, and crates.io for "linzumi" returned exactly one first-party
+  package. PyPI (404), RubyGems (404), and crates.io (0 results) have no Linzumi packages. No Maven
+  Central, NuGet, Packagist, or pkg.go.dev artifacts were linked from any Linzumi surface. There is no
+  server-side SDK for calling a Linzumi API — the single package is the local runner CLI, so no `SDKs`
+  pointer is emitted.
+packages:
+- language: javascript
+  registry: npm
+  name: "@linzumi/cli"
+  url: https://www.npmjs.com/package/@linzumi/cli
+  install: npm install -g @linzumi/cli@latest
+  npx: npx -y @linzumi/cli@latest signup
+  official: true
+  kind: cli
+  description: >-
+    Linzumi CLI — point a Codex agent at the real code on your laptop, with your team watching and
+    steering from shared threads. This is the local half of the product: it authenticates the local
+    Commander, publishes runner capabilities, and starts Codex inside trusted folders only.
+  license: MIT
+  latest_version: 1.0.140
+  bin: linzumi
+  engines:
+    node: ">=20"
+  keywords:
+  - linzumi
+  - kandan
+  - codex
+  - local-runner
+  first_published: '2026-04-25'
+  last_published: '2026-07-19'
+  version_count: 251
+  repository: null
+  homepage: null
+  dependencies:
+  - "@anthropic-ai/claude-agent-sdk"
+  - "@inquirer/prompts"
+  - "@modelcontextprotocol/sdk"
+  - "@openai/codex"
+  - blessed
+  - undici
+  - ws
+  - zod

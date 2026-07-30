@@ -1,0 +1,113 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.npmjs.com/package/@linzumi/cli
+name: linzumi
+package: "@linzumi/cli"
+latest_version: 1.0.140
+license: MIT
+summary: >-
+  First-party CLI that runs the Linzumi local "Commander" runner. It authenticates the developer's
+  machine, registers trusted project folders, starts Codex agent sessions against real local code, and
+  exposes a local MCP server so other MCP-compatible agents can read scoped Linzumi context.
+install:
+- method: npm-global
+  command: npm install -g @linzumi/cli@latest
+- method: npx
+  command: npx -y @linzumi/cli@latest signup
+- method: pinned
+  command: npx -y @linzumi/cli@1.0.140 --version
+requirements:
+  node: ">=20"
+commands:
+- group: onboarding
+  commands:
+  - name: signup
+    description: >-
+      Agent-first launch path. Asks for an email, sends a sign-in code, helps pick the repos where
+      Codex may work, starts first tasks, and opens Mission Control in the browser.
+    usage: npx -y @linzumi/cli@latest signup
+- group: runner
+  commands:
+  - name: start
+    description: Start a local runner from a trusted folder.
+    usage: linzumi start ~/code/my-app
+    flags:
+    - name: "--allowed-cwd"
+      description: Comma-separated allowlist of explicit runner roots.
+  - name: connect
+    description: >-
+      Connect a runner to a Linzumi server. Defaults to opening a browser on the runner machine and
+      waiting for an OAuth callback on localhost.
+    usage: linzumi connect --workspace <slug> --auth-mode device --api-url wss://serve.linzumi.com
+    flags:
+    - name: "--linzumi-url"
+      description: API URL for non-production Linzumi servers (e.g. ws://127.0.0.1:4140).
+    - name: "--api-url"
+      description: API URL alias accepted by connect; defaults to wss://serve.linzumi.com.
+    - name: "--workspace"
+      description: Target workspace slug.
+    - name: "--auth-mode"
+      description: "Set to `device` for headless/remote runners with no browser or loopback callback."
+    - name: "--cwd"
+      description: Selected working directory, also trusted for that runner process.
+    - name: "--allow-port-forwarding-by-default"
+      description: Allow port forwarding without per-session approval.
+- group: trusted-folders
+  commands:
+  - name: paths add
+    description: Add a folder to the trust list. Linzumi only edits inside explicitly trusted folders.
+    usage: linzumi paths add ~/code/my-app
+    notes: Trust list lives at ~/.linzumi/config.json
+- group: mcp
+  commands:
+  - name: mcp doctor
+    description: Diagnose the local MCP server against a workspace and channel.
+    usage: linzumi mcp doctor --api-url https://serve.linzumi.com --workspace <workspace> --channel <channel>
+  - name: mcp config
+    description: Emit MCP client configuration for a target agent runtime.
+    usage: linzumi mcp config --api-url https://serve.linzumi.com --format codex
+    flags:
+    - name: "--format"
+      description: "Target agent runtime; published values: codex, claude-code."
+  - name: mcp server
+    description: Run the local Linzumi MCP server for other MCP-compatible agents.
+    usage: linzumi mcp server --api-url https://serve.linzumi.com
+- group: safety
+  commands:
+  - name: safety-snapshots list
+    description: List git safety snapshots saved before agent turns.
+    usage: linzumi safety-snapshots list
+  - name: safety-snapshots restore
+    description: >-
+      Materialize a snapshot into a new directory. Never overwrites current files.
+    usage: linzumi safety-snapshots restore <snapshot-id> --to ./recovered
+- group: meta
+  commands:
+  - name: "--version"
+    usage: linzumi --version
+  - name: "--help"
+    usage: linzumi --help
+key_flows:
+- name: Headless / remote runner auth (device flow)
+  description: >-
+    For a VPS, Windows/SSH session, or any machine with no browser or loopback callback, `--auth-mode
+    device` prints an 8-character user code plus a verification URL. Approve from a browser already
+    signed in to Linzumi on another machine; the runner long-polls and receives a scoped token. The
+    code expires in 10 minutes.
+  verification_url: https://serve.linzumi.com/api/v2/local-codex-runner/device
+- name: Git safety snapshots
+  description: >-
+    Before an agent turn runs in a git workspace with uncommitted changes, the runner stores dirty
+    tracked state as a dangling `git stash create` commit pinned under refs/linzumi/safety/, plus
+    copies of untracked non-ignored files under ~/.linzumi/safety-snapshots/. Up to 200MB per
+    snapshot; oversized files skipped loudly. Pruned after 72 hours or beyond the newest 50. A clean
+    tree costs one `git status` and stores nothing.
+  default: enabled
+  disable_env: LINZUMI_GIT_SAFETY_SNAPSHOTS=0
+config_files:
+- path: ~/.linzumi/config.json
+  purpose: Trusted folder list and runner configuration.
+- path: ~/.linzumi/safety-snapshots/
+  purpose: Copies of untracked, non-ignored files captured before agent turns.
+- path: refs/linzumi/safety/
+  purpose: Git refs pinning dangling stash commits for dirty tracked state.

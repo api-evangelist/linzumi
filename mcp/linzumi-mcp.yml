@@ -1,0 +1,39 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.npmjs.com/package/@linzumi/cli
+status: published
+notes: >-
+  Linzumi ships a real, first-party MCP server — not a candidate derived from an OpenAPI. It runs
+  locally (stdio) and is bundled with the @linzumi/cli package, which depends on
+  @modelcontextprotocol/sdk. Commander-started Codex sessions are preconfigured with it automatically;
+  other MCP-compatible agents configure it manually. There is no hosted/remote MCP endpoint.
+server:
+  name: linzumi
+  transport: stdio
+  scope: local
+  url: null
+  command: linzumi mcp server --api-url https://serve.linzumi.com
+  package: "@linzumi/cli"
+  auth: >-
+    Reuses the approved local-runner auth established by `linzumi connect` — the agent gets the same
+    scoped token, so MCP access is bounded to the runner's authorized workspace context.
+clients:
+- name: codex
+  config_command: linzumi mcp config --api-url https://serve.linzumi.com --format codex
+  preconfigured: true
+  notes: Commander-started Codex sessions get the linzumi MCP server automatically.
+- name: claude-code
+  config_command: linzumi mcp config --api-url https://serve.linzumi.com --format claude-code
+  preconfigured: false
+diagnostics:
+  command: linzumi mcp doctor --api-url https://serve.linzumi.com --workspace <workspace> --channel <channel>
+tools:
+- name: linzumi_get_message
+  description: Read a scoped Linzumi message in the runner's authorized context.
+- name: linzumi_get_thread
+  description: Read a scoped Linzumi thread in the runner's authorized context.
+- name: linzumi_get_channel
+  description: Read a scoped Linzumi channel in the runner's authorized context.
+- name: linzumi_dm_owner
+  description: >-
+    Send a bounded direct message to the Commander owner. Available only when configured.

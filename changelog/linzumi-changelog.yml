@@ -1,0 +1,41 @@
+generated: '2026-07-19'
+method: derived
+source: https://registry.npmjs.org/@linzumi%2Fcli
+docs: https://www.npmjs.com/package/@linzumi/cli?activeTab=versions
+notes: >-
+  Linzumi publishes no curated changelog or release-notes page. This is the npm registry release
+  history for the first-party @linzumi/cli package — real dated releases, but with no vendor-authored
+  highlights, so entries carry version and date only. No breaking/additions classification is asserted
+  because none is published.
+scheme: semver
+current_version: 1.0.140
+first_version: 0.0.1-beta
+first_release_date: '2026-04-25'
+latest_release_date: '2026-07-19'
+version_count: 251
+has_release_notes: false
+entries:
+- version: 1.0.140
+  date: '2026-07-19'
+- version: 1.0.139
+  date: '2026-07-19'
+- version: 1.0.138
+  date: '2026-07-19'
+- version: 1.0.137
+  date: '2026-07-19'
+- version: 1.0.136
+  date: '2026-07-19'
+- version: 1.0.135
+  date: '2026-07-18'
+- version: 1.0.134
+  date: '2026-07-18'
+- version: 1.0.133
+  date: '2026-07-18'
+- version: 1.0.132
+  date: '2026-07-18'
+- version: 1.0.131
+  date: '2026-07-18'
+- version: 1.0.130
+  date: '2026-07-17'
+- version: 1.0.129
+  date: '2026-07-16'

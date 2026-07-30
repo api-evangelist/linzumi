@@ -1,0 +1,54 @@
+generated: '2026-07-19'
+method: searched
+source: https://www.npmjs.com/package/@linzumi/cli, https://linzumi.com/
+notes: >-
+  Early-stage company (YC Spring 2026, team of 3). No status page, no deprecation policy, no SLA, and
+  no published support window exist on any Linzumi surface — status.linzumi.com does not resolve.
+  Accordingly no `StatusPage` and no `Deprecation` pointers are emitted.
+maturity:
+  stage: beta
+  evidence: >-
+    macOS build published under a "macos-beta" download path; homepage describes beta availability.
+versioning:
+  api:
+    scheme: uri-path
+    current: v2
+    docs: null
+  client:
+    scheme: semver
+    package: "@linzumi/cli"
+    current: 1.0.140
+    first_release: 0.0.1-beta
+    docs: https://www.npmjs.com/package/@linzumi/cli?activeTab=versions
+release_cadence:
+  observed: very high
+  evidence: 251 npm versions between 2026-04-25 and 2026-07-19; 12 releases in the 4 days to 2026-07-19
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  documented: false
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+platforms:
+- name: macOS desktop app
+  status: beta
+  channel: https://downloads.linzumi.com/macos-beta/linzumi_macos_latest.dmg
+  requirement: Apple Silicon
+- name: Web workspace
+  status: beta
+  url: https://serve.linzumi.com/
+- name: Local runner CLI
+  status: generally available on npm
+  url: https://www.npmjs.com/package/@linzumi/cli
+agent_support:
+- agent: OpenAI Codex
+  status: supported
+  evidence: "@openai/codex is a direct dependency of @linzumi/cli"
+- agent: Claude Code
+  status: announced
+  evidence: >-
+    YC profile states "Claude Code coming soon"; @anthropic-ai/claude-agent-sdk is already a direct
+    dependency of @linzumi/cli.
+deprecated_operations: []

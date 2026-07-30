@@ -1,0 +1,79 @@
+generated: '2026-07-19'
+method: probed
+source: live HTTP probes 2026-07-19
+result: none
+notes: >-
+  No .well-known documents are published on any Linzumi host. IMPORTANT for re-runs: the marketing
+  host linzumi.com returns HTTP **200** for every unknown path, serving an identical 404 HTML body
+  (title "404 - Page Not Found | Linzumi", 18232 bytes, md5 11da9bc9da6dff4399e72ea6b37af208). Status
+  code alone is a false positive on this host — every path below was verified by body comparison
+  against a control request for a deliberately bogus path. The API host serve.linzumi.com behaves
+  correctly and returns genuine 404 with a JSON error envelope. No `WellKnown` or `SecurityTxt`
+  pointer is wired in apis.yml because nothing was actually found.
+hosts:
+- host: https://linzumi.com
+  soft_404: true
+  control_path: /nonexistent-page-test-12345
+  control_status: 200
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /.well-known/openid-configuration
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /.well-known/api-catalog
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /openapi.json
+    status: 200
+    exists: false
+    reason: soft-404 HTML body identical to control
+  - path: /agents.md
+    status: 200
+    exists: false
+    reason: soft-404 despite being linked from the @linzumi/cli README — the page is not yet published
+  real_documents:
+  - path: /robots.txt
+    status: 200
+    exists: true
+    content_type: text/plain
+    note: Allows Googlebot, Bingbot, Twitterbot, facebookexternalhit, and *; points at /sitemap-index.xml
+  - path: /llms.txt
+    status: 200
+    exists: true
+    content_type: text/plain
+    note: >-
+      Served as a real text file but its content is an uncustomized template that describes "Starter
+      Astro site for a Ploy tenant website" and does not describe Linzumi at all. NOT saved verbatim,
+      because doing so would propagate factually wrong content about this company into the catalog.
+      An accurate generated replacement is at llms/linzumi-llms.txt.
+- host: https://serve.linzumi.com
+  soft_404: false
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 404
+    exists: false
+  - path: /openapi.json
+    status: 404
+    exists: false
+- host: https://docs.linzumi.com
+  resolves: false
+  note: DNS does not resolve
+- host: https://api.linzumi.com
+  resolves: false
+  note: DNS does not resolve
+- host: https://status.linzumi.com
+  resolves: false
+  note: DNS does not resolve

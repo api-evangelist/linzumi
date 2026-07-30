@@ -1,0 +1,33 @@
+generated: '2026-07-19'
+method: probed
+source: live HTTP probes of https://serve.linzumi.com
+format: custom-json
+rfc9457: false
+notes: >-
+  Linzumi publishes no OpenAPI and no error reference, so this catalog is not derived from a spec — it
+  records the error envelope actually returned by the live API host. Only codes genuinely observed are
+  listed; the catalog is deliberately thin rather than padded with invented codes.
+envelope:
+  shape: '{"error": {"code": "<string>", "detail": "<string>"}}'
+  root_field: error
+  fields:
+  - name: code
+    type: string
+    description: >-
+      Error identifier. Observed values append the negotiated response format to the HTTP status
+      (e.g. "404.json").
+  - name: detail
+    type: string
+    description: Human-readable description of the failure.
+  content_type: application/json; charset=utf-8
+problems:
+- status: 404
+  code: 404.json
+  detail: request failed
+  title: Not found
+  observed_at:
+  - https://serve.linzumi.com/api/v2
+  - https://serve.linzumi.com/openapi.json
+  - https://serve.linzumi.com/healthz
+  - https://serve.linzumi.com/.well-known/openid-configuration
+  source: probed
