@@ -13,6 +13,17 @@ description: >-
   with Claude Code announced as coming soon. The service is in beta via a macOS desktop app and a web
   workspace; there is no public developer API program, documentation portal, or published OpenAPI at
   this time.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
