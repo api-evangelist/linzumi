@@ -1,0 +1,42 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-07'
+method: searched
+source: https://linzumi.com/
+sources:
+- https://linzumi.com/
+provenance:
+  tool: all/0-working/economics/harvest_pricing.py
+  run: 20261007T112025
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: flat-platform
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-07'
+  evidence: Self-hosting, VPC, or your own cloud
+  managed_tier: Company
+published: true
+note: 'Product page with a pricing section: free Personal tier, flat $100/month Company tier, negotiated
+  Enterprise with self-hosting/VPC options.'
+plan_count: 3
+currency: USD
+plans:
+- name: Personal
+  price_text: Free
+  period: none
+  included_quota: One person, unlimited channels; coding agents in chat; runs on your machine with your
+    own keys; live preview and full run replay; community support
+- name: Company
+  price_text: $100 / month
+  price: 100
+  currency: USD
+  period: month
+  unit: whole team (flat, no per-seat)
+  included_quota: Everything in Personal; all agents, all context, unlimited agent-hours; shared channels;
+    voice, phone, on-call workflows; run services; priority support. First month free.
+- name: Enterprise
+  price_text: Let's talk
+  period: none
+  included_quota: Everything in Company; SSO/SAML and SCIM; self-hosting, VPC, or your own cloud; SOC
+    2, audit logs; custom guardrails; dedicated support, SLA
