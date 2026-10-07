@@ -80,6 +80,10 @@ apis:
   - type: ErrorCatalog
     url: errors/linzumi-problem-types.yml
 common:
+- type: Pricing
+  url: https://linzumi.com/
+- type: Plans
+  url: plans/linzumi-plans-pricing.yml
 - type: Website
   url: https://linzumi.com/
 - type: Login
