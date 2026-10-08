@@ -40,3 +40,32 @@ plans:
   period: none
   included_quota: Everything in Company; SSO/SAML and SCIM; self-hosting, VPC, or your own cloud; SOC
     2, audit logs; custom guardrails; dedicated support, SLA
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units: []
+  plans:
+  - name: Personal
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Company
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
